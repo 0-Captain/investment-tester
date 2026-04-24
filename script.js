@@ -243,7 +243,6 @@ const el = {
   result: document.getElementById("result"),
   submitBtn: document.getElementById("submit-btn"),
   retryBtn: document.getElementById("retry-btn"),
-  shareBtn: document.getElementById("share-btn"),
   questionsList: document.getElementById("questions-list"),
   progressFill: document.getElementById("progress-fill"),
   answeredCount: document.getElementById("answered-count"),
@@ -269,17 +268,6 @@ el.retryBtn.addEventListener("click", () => {
   setTheme(null);
   buildQuestions();
   show("quiz");
-});
-
-el.shareBtn.addEventListener("click", async () => {
-  const level = pickLevel(calcScore());
-  const text = `我在"投资决策水平测试"里的结果：${level.title} —— ${level.tagline}`;
-  try {
-    await navigator.clipboard.writeText(text);
-    flashBtn(el.shareBtn, "已复制 ✓");
-  } catch {
-    flashBtn(el.shareBtn, "复制失败");
-  }
 });
 
 // ---------- 渲染 ----------
@@ -390,12 +378,6 @@ function setTheme(themeClass) {
   all.forEach((t) => el.body.classList.remove(t));
   el.body.classList.remove("theme-default");
   el.body.classList.add(themeClass || "theme-default");
-}
-
-function flashBtn(btn, text) {
-  const old = btn.textContent;
-  btn.textContent = text;
-  setTimeout(() => (btn.textContent = old), 1500);
 }
 
 // ---------- 启动 ----------
