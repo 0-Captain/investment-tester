@@ -239,10 +239,8 @@ const state = {
 
 const el = {
   body: document.body,
-  intro: document.getElementById("intro"),
   quiz: document.getElementById("quiz"),
   result: document.getElementById("result"),
-  startBtn: document.getElementById("start-btn"),
   submitBtn: document.getElementById("submit-btn"),
   retryBtn: document.getElementById("retry-btn"),
   shareBtn: document.getElementById("share-btn"),
@@ -263,11 +261,6 @@ el.totalCount.textContent = QUESTIONS.length;
 
 // ---------- 事件 ----------
 
-el.startBtn.addEventListener("click", () => {
-  buildQuestions();
-  show("quiz");
-});
-
 el.submitBtn.addEventListener("click", () => {
   if (countAnswered() < QUESTIONS.length) return;
   finish();
@@ -276,7 +269,8 @@ el.submitBtn.addEventListener("click", () => {
 el.retryBtn.addEventListener("click", () => {
   state.answers = new Array(QUESTIONS.length).fill(null);
   setTheme(null);
-  show("intro");
+  buildQuestions();
+  show("quiz");
 });
 
 el.shareBtn.addEventListener("click", async () => {
@@ -294,7 +288,6 @@ el.shareBtn.addEventListener("click", async () => {
 // ---------- 渲染 ----------
 
 function show(name) {
-  el.intro.classList.toggle("hidden", name !== "intro");
   el.quiz.classList.toggle("hidden", name !== "quiz");
   el.result.classList.toggle("hidden", name !== "result");
   window.scrollTo({ top: 0, behavior: "smooth" });
@@ -411,3 +404,6 @@ function flashBtn(btn, text) {
   btn.textContent = text;
   setTimeout(() => (btn.textContent = old), 1500);
 }
+
+// ---------- 启动 ----------
+buildQuestions();
