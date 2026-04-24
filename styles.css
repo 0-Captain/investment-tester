@@ -342,40 +342,6 @@ h2 {
   filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.08));
 }
 
-.score-ring {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  margin: 4px auto 18px;
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: 2px;
-  background:
-    conic-gradient(var(--accent) var(--score-deg, 0deg), var(--ring-track) 0deg);
-  position: relative;
-  transition: background 0.6s ease;
-}
-.score-ring::before {
-  content: "";
-  position: absolute;
-  inset: 8px;
-  border-radius: 50%;
-  background: var(--card);
-}
-#score-number {
-  position: relative;
-  font-size: 44px;
-  font-weight: 700;
-  color: var(--text);
-}
-.score-unit {
-  position: relative;
-  color: var(--text-soft);
-  font-size: 14px;
-  margin-left: 2px;
-}
-
 #result-title {
   text-align: center;
   font-size: 26px;
@@ -464,8 +430,6 @@ h2 {
   .question-item { padding: 16px 14px 12px; }
   .question-item h3 { font-size: 15.5px; }
   .option { padding: 12px 12px; font-size: 15px; }
-  .score-ring { width: 120px; height: 120px; }
-  #score-number { font-size: 38px; }
   #result-title { font-size: 22px; }
   .description { padding: 16px; font-size: 14.5px; }
   .result-actions { flex-direction: column; }

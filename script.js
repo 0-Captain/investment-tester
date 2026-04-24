@@ -253,8 +253,6 @@ const el = {
   resultTagline: document.getElementById("result-tagline"),
   resultDesc: document.getElementById("result-description"),
   resultEmoji: document.getElementById("result-emoji"),
-  scoreNumber: document.getElementById("score-number"),
-  scoreRing: document.querySelector(".score-ring"),
 };
 
 el.totalCount.textContent = QUESTIONS.length;
@@ -274,9 +272,8 @@ el.retryBtn.addEventListener("click", () => {
 });
 
 el.shareBtn.addEventListener("click", async () => {
-  const score = calcScore();
-  const level = pickLevel(score);
-  const text = `我在"投资决策水平测试"里拿了 ${score} 分，等级：${level.title} —— ${level.tagline}`;
+  const level = pickLevel(calcScore());
+  const text = `我在"投资决策水平测试"里的结果：${level.title} —— ${level.tagline}`;
   try {
     await navigator.clipboard.writeText(text);
     flashBtn(el.shareBtn, "已复制 ✓");
@@ -368,15 +365,11 @@ function countAnswered() {
 }
 
 function finish() {
-  const score = calcScore();
-  const level = pickLevel(score);
-  el.scoreNumber.textContent = score;
+  const level = pickLevel(calcScore());
   el.resultTitle.textContent = level.title;
   el.resultTagline.textContent = level.tagline;
   el.resultEmoji.textContent = level.emoji;
   el.resultDesc.innerHTML = level.description;
-  const deg = Math.round((score / 100) * 360);
-  el.scoreRing.style.setProperty("--score-deg", `${deg}deg`);
   setTheme(level.theme);
   show("result");
 }
