@@ -2,44 +2,48 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>投资决策水平测试</title>
-  <meta name="description" content="10 道题测出你的投资决策水平，看看你是投机赌徒还是价值投资大师。" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f1420" />
+  <title>投资决策水平测试 · 测完有点扎心</title>
+  <meta name="description" content="10 道题测出你的投资决策水平，顺便被狠狠点评一下。" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="theme-default">
   <main class="container">
     <section id="intro" class="card">
+      <div class="badge">⚠️ 心理承受力弱者请谨慎开始</div>
       <h1>投资决策水平测试</h1>
-      <p class="subtitle">10 道题，3 分钟，帮你定位自己的投资决策层级。</p>
+      <p class="subtitle">10 道题 · 3 分钟 · 测完附赠一段专属嘴替点评</p>
       <ul class="hint-list">
-        <li>覆盖风险认知、投资理念、情绪管理、资产配置、决策纪律</li>
-        <li>按你的真实想法作答，而非"标准答案"</li>
-        <li>测试完成后给出等级标题与针对性描述</li>
+        <li>按真实想法作答，别挑"我应该选"的那个</li>
+        <li>题目一次性呈现，可来回滚动修改</li>
+        <li>5 档等级，文案会稍微扎心，但不会骂人</li>
       </ul>
-      <button id="start-btn" class="primary-btn">开始测试</button>
+      <button id="start-btn" class="primary-btn block-btn">开始测试</button>
     </section>
 
     <section id="quiz" class="card hidden">
-      <div class="progress-bar"><div id="progress-fill"></div></div>
-      <div class="progress-text">
-        <span id="progress-current">1</span> / <span id="progress-total">10</span>
+      <div class="sticky-head">
+        <div class="progress-bar"><div id="progress-fill"></div></div>
+        <p class="progress-text">
+          已答 <span id="answered-count">0</span> / <span id="total-count">10</span>
+        </p>
       </div>
-      <h2 id="question-text"></h2>
-      <div id="options" class="options"></div>
+      <div id="questions-list" class="questions-list"></div>
       <div class="quiz-footer">
-        <button id="prev-btn" class="ghost-btn" disabled>上一题</button>
-        <button id="next-btn" class="primary-btn" disabled>下一题</button>
+        <p id="unanswered-hint" class="unanswered-hint"></p>
+        <button id="submit-btn" class="primary-btn block-btn" disabled>查看结果</button>
       </div>
     </section>
 
     <section id="result" class="card hidden">
+      <div class="result-emoji" id="result-emoji" aria-hidden="true"></div>
       <div class="score-ring">
         <span id="score-number">0</span>
         <span class="score-unit">分</span>
       </div>
       <h2 id="result-title"></h2>
-      <p id="result-tagline" class="subtitle"></p>
+      <p id="result-tagline" class="tagline"></p>
       <div id="result-description" class="description"></div>
       <div class="result-actions">
         <button id="retry-btn" class="primary-btn">再测一次</button>
@@ -49,7 +53,7 @@
   </main>
 
   <footer class="site-footer">
-    <span>仅供自测参考，不构成任何投资建议。</span>
+    <span>仅供自测参考，不构成任何投资建议。测完记得善待自己。</span>
   </footer>
 
   <script src="script.js"></script>

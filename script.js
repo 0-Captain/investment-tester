@@ -1,5 +1,5 @@
 // 题目：10 道单选题，每题 4 个选项，选项分值 0 / 3 / 7 / 10
-// 题目方向覆盖：风险认知、投资理念、情绪管理、资产配置、决策纪律
+// 维度：风险认知、投资理念、情绪管理、资产配置、决策纪律
 const QUESTIONS = [
   {
     q: "当你看到一只股票一周内上涨 40%，并且朋友极力推荐时，你的第一反应是？",
@@ -7,11 +7,11 @@ const QUESTIONS = [
       { text: "立刻买入，怕错过后面的涨幅", score: 0 },
       { text: "先小仓位跟进试试水", score: 3 },
       { text: "查一下公司的基本面再决定", score: 7 },
-      { text: "警惕高位风险，优先评估自己是否理解这家公司", score: 10 },
+      { text: "警惕高位风险，先评估自己是否真正理解这家公司", score: 10 },
     ],
   },
   {
-    q: "你对"投资回报"的合理年化预期是？",
+    q: "你对「投资回报」的合理年化预期是？",
     options: [
       { text: "每年至少翻倍，否则没意思", score: 0 },
       { text: "年化 30% 左右，长期稳定", score: 3 },
@@ -65,7 +65,7 @@ const QUESTIONS = [
     ],
   },
   {
-    q: "对于"杠杆 / 融资 / 合约"这类工具，你的态度是？",
+    q: "对于「杠杆 / 融资 / 合约」这类工具，你的态度是？",
     options: [
       { text: "经常用，能放大收益", score: 0 },
       { text: "偶尔用，但控制不好仓位", score: 3 },
@@ -74,7 +74,7 @@ const QUESTIONS = [
     ],
   },
   {
-    q: "你如何看待"长期持有"这件事？",
+    q: "你如何看待「长期持有」这件事？",
     options: [
       { text: "太慢了，我更喜欢短线快进快出", score: 0 },
       { text: "理论上认同，但实际拿不住", score: 3 },
@@ -93,192 +93,206 @@ const QUESTIONS = [
   },
 ];
 
-// 结果等级（可枚举）：按总分区间映射
+// 5 档可枚举结果，每档有独立主题 class 与专属嘴替点评
 const LEVELS = [
   {
     id: "gambler",
     min: 0,
     max: 20,
+    theme: "theme-gambler",
+    emoji: "🎰",
     title: "投机赌徒",
-    tagline: "更像在赌场，而不是在投资。",
+    tagline: "你不是在投资，你是在给券商和对手盘众筹。",
     description: `
-      <h3>你的画像</h3>
-      <p>当前的决策更多依赖直觉、情绪和短期刺激，几乎没有建立属于自己的判断框架。盈利往往来自运气，而亏损会成为常态。</p>
-      <h3>主要盲点</h3>
+      <p class="quote">恭喜，你用"一键下单"成功把投资 App 变成了老虎机。</p>
+      <h3>画像</h3>
+      <p>你买入的理由通常是"它涨了"，你卖出的理由通常是"它跌了"。账户不是资产，是你情绪波动的实时心电图。你最需要的不是一个新策略，是一个冷静期。</p>
+      <h3>你大概率有这些毛病</h3>
       <ul>
-        <li>把"涨"当信号，把"跌"当噩耗，追涨杀跌</li>
-        <li>没有止损与仓位管理，容易被一次大亏击穿心态</li>
-        <li>信息来源单一，容易被荐股和情绪裹挟</li>
+        <li>听到消息就下单，研报打开从不翻到第二页</li>
+        <li>K 线一红手抖，K 线一绿上头，全天围绕大盘喘气</li>
+        <li>止损线写在朋友圈里，写在账户里反而下不去手</li>
+        <li>看到别人赚比自己亏还难受</li>
       </ul>
-      <h3>下一步建议</h3>
+      <h3>扎心翻译</h3>
+      <p>你账户里少的那些钱没有"消失"，只是换了个主人。对面是个有策略、有纪律、睡得好的家伙。</p>
+      <h3>抢救方案</h3>
       <ul>
-        <li>先把仓位降到能够安然入睡的水平</li>
-        <li>任何买入都写下一句话的理由，不会写就不买</li>
-        <li>用几个月时间只做观察和记录，再谈盈利</li>
+        <li>把合约/杠杆 App 卸载，至少冷静一个月</li>
+        <li>最近 5 笔交易，一笔一笔写"为什么买 / 为什么卖"，写不出来说明你不是在投资，是在按按钮</li>
+        <li>把仓位砍到能安心睡觉的水平，先活下来，再谈盈利</li>
       </ul>`,
   },
   {
     id: "newbie",
     min: 21,
     max: 40,
-    title: "投资小白",
-    tagline: "知道要学习，但还没有形成自己的体系。",
+    theme: "theme-newbie",
+    emoji: "🌱",
+    title: "韭菜学徒",
+    tagline: "学费交得很努力，但交的姿势还不太对。",
     description: `
-      <h3>你的画像</h3>
-      <p>你已经意识到投资不是简单地"低买高卖"，但方法论仍然零散，容易在市场波动中动摇原计划。</p>
-      <h3>主要盲点</h3>
+      <p class="quote">恭喜你已经分清"股票"和"基金"了，这是一个不该骄傲但应该记录的里程碑。</p>
+      <h3>画像</h3>
+      <p>你已经开始看财经新闻，但还没完全分清哪些是新闻、哪些是软广、哪些是带货。你相信"长期持有"，只是目前它的实际含义是"亏了不舍得卖"。</p>
+      <h3>你大概率有这些毛病</h3>
       <ul>
-        <li>对收益预期偏高，对风险预期偏低</li>
-        <li>缺少资产配置观念，仓位过于集中</li>
-        <li>容易受短期新闻与账户涨跌影响动作变形</li>
+        <li>朋友圈有人说"翻了十倍"就焦虑，有人说"腰斩"就暗爽</li>
+        <li>会买，不会卖；会加仓，不会减仓</li>
+        <li>看图就能做决策，财报看三页眼睛开始发涩</li>
+        <li>收益预期永远比风险预期高一档</li>
       </ul>
-      <h3>下一步建议</h3>
+      <h3>扎心翻译</h3>
+      <p>你现在挑股票的思路，和去菜市场挑水果时只看"哪个摊位排队最长"是一样的。</p>
+      <h3>升级动作</h3>
       <ul>
-        <li>读 1-2 本经典投资书建立框架（如《投资最重要的事》）</li>
-        <li>用指数基金或 ETF 做长期定投，先学会"拿住"</li>
-        <li>为每笔交易设好止损和最大回撤预算</li>
+        <li>先把 70% 的钱扔进宽基指数定投，剩下 30% 再折腾</li>
+        <li>每笔交易前写一句话理由，写不出来就说明你不是想买，只是手痒</li>
+        <li>别再问"这只能不能买"，改成问"它凭什么涨"，问题不一样，答案也不一样</li>
       </ul>`,
   },
   {
     id: "rational",
     min: 41,
     max: 60,
-    title: "理性新手",
-    tagline: "具备基本理性，开始形成自己的判断。",
+    theme: "theme-rational",
+    emoji: "🧭",
+    title: "清醒的韭菜",
+    tagline: "你已经知道自己是韭菜了，这本身就是进步。",
     description: `
-      <h3>你的画像</h3>
-      <p>你能够抵御大部分市场噪音，也知道分散和止损的重要性。真正的挑战来自"知道"和"做到"之间的距离。</p>
-      <h3>主要盲点</h3>
+      <p class="quote">道理都懂，手还是抖。</p>
+      <h3>画像</h3>
+      <p>你已经走出了"听消息炒股"的阶段，有了基本的判断框架，也能大致识别出谁是骗子。真正的考验不在于你懂不懂，而在于——账户浮亏 15% 时你还能不能按原计划做事。</p>
+      <h3>你大概率有这些毛病</h3>
       <ul>
-        <li>有计划，但执行不够严格，容易临时改变主意</li>
-        <li>对自身能力圈边界的认知还不够清晰</li>
-        <li>复盘意识有，但没有形成系统</li>
+        <li>理论课听了一堆，真枪实战时还是会手滑</li>
+        <li>明白分散的道理，但组合里永远偷偷藏着一个"特殊仓位"</li>
+        <li>计划写得头头是道，执行起来经常"这次不一样"</li>
+        <li>复盘本建立了三个，用得最多的那一页写着"下次不要这样"</li>
       </ul>
-      <h3>下一步建议</h3>
+      <h3>扎心翻译</h3>
+      <p>你是那种教练夸"动作挺标准"、但一上台比赛就紧张的选手。</p>
+      <h3>升级动作</h3>
       <ul>
-        <li>显式写下自己的能力圈清单，圈外资产坚决不碰</li>
-        <li>建立交易日志，记录买入假设、后续验证、偏差原因</li>
-        <li>将大部分资金放在规则化策略上，小部分做主动决策</li>
+        <li>显式写下自己的能力圈清单，圈外的资产坚决不碰，哪怕它在飞</li>
+        <li>把"特殊仓位"强制压到总仓位 10% 以下，保护你的其实不是规则，是你自己</li>
+        <li>认真做一次全年复盘，你会发现打败你的从来不是行情，是同一种错误</li>
       </ul>`,
   },
   {
     id: "steady",
     min: 61,
     max: 80,
-    title: "稳健投资者",
-    tagline: "在波动里也能睡得着觉。",
+    theme: "theme-steady",
+    emoji: "🌲",
+    title: "老练玩家",
+    tagline: "市场不会对你特别温柔，但会给你应得的那份。",
     description: `
-      <h3>你的画像</h3>
-      <p>你已经把投资作为长期事业在经营：有组合、有纪律、有复盘。收益可能不会非常惊艳，但复利效应正在显现。</p>
-      <h3>主要优势</h3>
+      <p class="quote">你的账户曲线也许不刺激，但它在所有人哀嚎时还活着。</p>
+      <h3>画像</h3>
+      <p>你已经明白投资拼的不是聪明，是少犯蠢。你对回撤的敏感超过对收益的敏感，对仓位的纪律超过对机会的贪婪。这种"无聊"本身就是一种稀缺能力。</p>
+      <h3>你在这些地方已经做对了</h3>
       <ul>
-        <li>能区分"噪音"和"信号"</li>
-        <li>重视仓位管理与回撤控制</li>
-        <li>愿意为了正确的决策承受短期不舒服</li>
+        <li>能区分"信号"和"噪音"，不被短期新闻牵着走</li>
+        <li>愿意为了正确的决策，承受一段时间的难受</li>
+        <li>知道自己能力圈的边界在哪，也知道跨出去的代价</li>
       </ul>
-      <h3>下一步建议</h3>
+      <h3>提醒你一下</h3>
       <ul>
-        <li>警惕"经验带来的惯性"，在牛市保持谦卑</li>
-        <li>定期审视资产配置是否与人生阶段匹配</li>
-        <li>把时间花在少数确定性最高的决策上，而不是频繁交易</li>
+        <li>警惕"老练"带来的过度自信，市场最爱惩罚这一点</li>
+        <li>你已经打败了 80% 的散户，下一个对手不是别人，是你自己想证明自己还在进化的那个冲动</li>
+        <li>别把"我很懂"和"这次我能看准"当成同一件事</li>
       </ul>`,
   },
   {
     id: "master",
     min: 81,
     max: 100,
-    title: "价值投资大师",
-    tagline: "纪律、耐心、独立判断，缺一不可。",
+    theme: "theme-master",
+    emoji: "👑",
+    title: "冷血复利机器",
+    tagline: "聚会里最无聊，但账户最厚的那种人。",
     description: `
-      <h3>你的画像</h3>
-      <p>你已经把投资当作一场长期概率游戏来玩：关注风险多于关注回报，关注过程多于关注结果，关注能力圈多于关注热点。</p>
-      <h3>主要优势</h3>
+      <p class="quote">你已经把投资这件事，变成了一件不依赖情绪也能持续做下去的事。</p>
+      <h3>画像</h3>
+      <p>你关注风险多过收益，关注过程多过结果，关注能力圈多过热点。别人追涨杀跌你在喝茶，别人恐慌割肉你在加仓。不是你运气好，是你把概率摆平了。</p>
+      <h3>你的核心优势</h3>
       <ul>
-        <li>拥有清晰的决策框架与严格的自我约束</li>
-        <li>在市场极端情绪中依然能保持冷静与独立判断</li>
-        <li>对自己的认知边界有足够清晰的认识</li>
+        <li>决策框架清晰，执行纪律稳定，大多数决策是"预先设计"的</li>
+        <li>在极端情绪面前还能独立思考，甚至还挺享受</li>
+        <li>对自己认知边界的警觉，超过对下一个机会的兴奋</li>
       </ul>
-      <h3>提醒</h3>
+      <h3>最后一句忠告</h3>
       <ul>
-        <li>警惕"幸存者偏差"带来的过度自信</li>
-        <li>持续更新能力圈，市场结构在变化</li>
-        <li>好的投资最终是好的人生决策，别把全部精力都放在收益上</li>
+        <li>"我已经搞懂了"是每一轮牛市最贵的心理账户，小心</li>
+        <li>复利最大的敌人，是你某一天觉得"我可以再聪明一点"</li>
+        <li>好的投资终究是好的人生决策，账户厚不是终点，别为它让渡太多别的东西</li>
       </ul>`,
   },
 ];
 
 // ---------- 状态与 DOM ----------
+
 const state = {
-  index: 0,
   answers: new Array(QUESTIONS.length).fill(null),
 };
 
 const el = {
+  body: document.body,
   intro: document.getElementById("intro"),
   quiz: document.getElementById("quiz"),
   result: document.getElementById("result"),
   startBtn: document.getElementById("start-btn"),
-  prevBtn: document.getElementById("prev-btn"),
-  nextBtn: document.getElementById("next-btn"),
+  submitBtn: document.getElementById("submit-btn"),
   retryBtn: document.getElementById("retry-btn"),
   shareBtn: document.getElementById("share-btn"),
-  questionText: document.getElementById("question-text"),
-  options: document.getElementById("options"),
+  questionsList: document.getElementById("questions-list"),
   progressFill: document.getElementById("progress-fill"),
-  progressCurrent: document.getElementById("progress-current"),
-  progressTotal: document.getElementById("progress-total"),
+  answeredCount: document.getElementById("answered-count"),
+  totalCount: document.getElementById("total-count"),
+  unansweredHint: document.getElementById("unanswered-hint"),
   resultTitle: document.getElementById("result-title"),
   resultTagline: document.getElementById("result-tagline"),
   resultDesc: document.getElementById("result-description"),
+  resultEmoji: document.getElementById("result-emoji"),
   scoreNumber: document.getElementById("score-number"),
   scoreRing: document.querySelector(".score-ring"),
 };
 
-el.progressTotal.textContent = QUESTIONS.length;
+el.totalCount.textContent = QUESTIONS.length;
 
 // ---------- 事件 ----------
+
 el.startBtn.addEventListener("click", () => {
+  buildQuestions();
   show("quiz");
-  renderQuestion();
 });
 
-el.nextBtn.addEventListener("click", () => {
-  if (state.index < QUESTIONS.length - 1) {
-    state.index++;
-    renderQuestion();
-  } else {
-    finish();
-  }
-});
-
-el.prevBtn.addEventListener("click", () => {
-  if (state.index > 0) {
-    state.index--;
-    renderQuestion();
-  }
+el.submitBtn.addEventListener("click", () => {
+  if (countAnswered() < QUESTIONS.length) return;
+  finish();
 });
 
 el.retryBtn.addEventListener("click", () => {
-  state.index = 0;
   state.answers = new Array(QUESTIONS.length).fill(null);
+  setTheme(null);
   show("intro");
 });
 
 el.shareBtn.addEventListener("click", async () => {
   const score = calcScore();
   const level = pickLevel(score);
-  const text = `我在"投资决策水平测试"中得了 ${score} 分，等级：${level.title}（${level.tagline}）`;
+  const text = `我在"投资决策水平测试"里拿了 ${score} 分，等级：${level.title} —— ${level.tagline}`;
   try {
     await navigator.clipboard.writeText(text);
-    el.shareBtn.textContent = "已复制";
-    setTimeout(() => (el.shareBtn.textContent = "复制结果"), 1500);
+    flashBtn(el.shareBtn, "已复制 ✓");
   } catch {
-    el.shareBtn.textContent = "复制失败";
-    setTimeout(() => (el.shareBtn.textContent = "复制结果"), 1500);
+    flashBtn(el.shareBtn, "复制失败");
   }
 });
 
 // ---------- 渲染 ----------
+
 function show(name) {
   el.intro.classList.toggle("hidden", name !== "intro");
   el.quiz.classList.toggle("hidden", name !== "quiz");
@@ -286,34 +300,78 @@ function show(name) {
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-function renderQuestion() {
-  const q = QUESTIONS[state.index];
-  el.questionText.textContent = `${state.index + 1}. ${q.q}`;
-  el.options.innerHTML = "";
+function buildQuestions() {
+  el.questionsList.innerHTML = "";
+  QUESTIONS.forEach((q, qIdx) => {
+    const item = document.createElement("div");
+    item.className = "question-item";
+    item.dataset.qIndex = String(qIdx);
 
-  q.options.forEach((opt, i) => {
-    const div = document.createElement("div");
-    div.className = "option";
-    if (state.answers[state.index] === i) div.classList.add("selected");
-    div.innerHTML = `
-      <span class="option-index">${"ABCD"[i]}</span>
-      <span class="option-text"></span>
-    `;
-    div.querySelector(".option-text").textContent = opt.text;
-    div.addEventListener("click", () => {
-      state.answers[state.index] = i;
-      renderQuestion();
+    const idx = document.createElement("span");
+    idx.className = "q-index";
+    idx.textContent = `第 ${qIdx + 1} / ${QUESTIONS.length} 题`;
+    item.appendChild(idx);
+
+    const title = document.createElement("h3");
+    title.textContent = q.q;
+    item.appendChild(title);
+
+    const opts = document.createElement("div");
+    opts.className = "options";
+    q.options.forEach((opt, oIdx) => {
+      const btn = document.createElement("div");
+      btn.className = "option";
+      btn.setAttribute("role", "button");
+      btn.setAttribute("tabindex", "0");
+      btn.innerHTML = `<span class="option-index">${"ABCD"[oIdx]}</span><span class="option-text"></span>`;
+      btn.querySelector(".option-text").textContent = opt.text;
+      const select = () => {
+        state.answers[qIdx] = oIdx;
+        updateQuestionItem(qIdx);
+        updateProgress();
+      };
+      btn.addEventListener("click", select);
+      btn.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          select();
+        }
+      });
+      opts.appendChild(btn);
     });
-    el.options.appendChild(div);
+    item.appendChild(opts);
+    el.questionsList.appendChild(item);
   });
+  updateProgress();
+}
 
-  el.progressCurrent.textContent = state.index + 1;
-  const pct = ((state.index + 1) / QUESTIONS.length) * 100;
-  el.progressFill.style.width = `${pct}%`;
+function updateQuestionItem(qIdx) {
+  const item = el.questionsList.querySelector(`[data-q-index="${qIdx}"]`);
+  if (!item) return;
+  item.classList.toggle("answered", state.answers[qIdx] !== null);
+  const chosen = state.answers[qIdx];
+  item.querySelectorAll(".option").forEach((opt, i) => {
+    opt.classList.toggle("selected", i === chosen);
+  });
+}
 
-  el.prevBtn.disabled = state.index === 0;
-  el.nextBtn.disabled = state.answers[state.index] === null;
-  el.nextBtn.textContent = state.index === QUESTIONS.length - 1 ? "查看结果" : "下一题";
+function updateProgress() {
+  const answered = countAnswered();
+  const total = QUESTIONS.length;
+  el.answeredCount.textContent = answered;
+  el.progressFill.style.width = `${(answered / total) * 100}%`;
+  const remain = total - answered;
+  if (remain === 0) {
+    el.submitBtn.disabled = false;
+    el.unansweredHint.textContent = "全部答完啦，点下方按钮接受审判。";
+  } else {
+    el.submitBtn.disabled = true;
+    el.unansweredHint.textContent = `还剩 ${remain} 题未作答`;
+  }
+}
+
+function countAnswered() {
+  return state.answers.filter((a) => a !== null).length;
 }
 
 function finish() {
@@ -322,9 +380,11 @@ function finish() {
   el.scoreNumber.textContent = score;
   el.resultTitle.textContent = level.title;
   el.resultTagline.textContent = level.tagline;
+  el.resultEmoji.textContent = level.emoji;
   el.resultDesc.innerHTML = level.description;
   const deg = Math.round((score / 100) * 360);
   el.scoreRing.style.setProperty("--score-deg", `${deg}deg`);
+  setTheme(level.theme);
   show("result");
 }
 
@@ -337,4 +397,17 @@ function calcScore() {
 
 function pickLevel(score) {
   return LEVELS.find((l) => score >= l.min && score <= l.max) || LEVELS[0];
+}
+
+function setTheme(themeClass) {
+  const all = LEVELS.map((l) => l.theme);
+  all.forEach((t) => el.body.classList.remove(t));
+  el.body.classList.remove("theme-default");
+  el.body.classList.add(themeClass || "theme-default");
+}
+
+function flashBtn(btn, text) {
+  const old = btn.textContent;
+  btn.textContent = text;
+  setTimeout(() => (btn.textContent = old), 1500);
 }
