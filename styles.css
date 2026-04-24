@@ -367,19 +367,12 @@ h2 {
   margin-bottom: 24px;
   font-size: 15px;
 }
-.description h3 {
-  font-size: 14px;
-  margin: 16px 0 6px;
-  color: var(--accent-strong);
-  letter-spacing: 0.3px;
-  font-weight: 700;
-}
-.description h3:first-child { margin-top: 0; }
 .description p {
-  margin: 0;
+  margin: 0 0 12px;
   color: var(--text);
   line-height: 1.85;
 }
+.description p:last-child { margin-bottom: 0; }
 .description ul {
   padding-left: 20px;
   color: var(--text);
